@@ -23,11 +23,17 @@ export default function Home() {
     <div className="min-h-screen p-8">
       {/* Chart Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-        <PieChart data={statistics.gender} title="Gender Distribution" />
-        <PieChart data={statistics.locationType} title="Location Types" />
+        <PieChart 
+          data={statistics.gender} 
+          title="Distribusi Gender Pelanggan" 
+        />
+        <PieChart 
+          data={statistics.locationType} 
+          title="Persebaran Lokasi Pelanggan" 
+        />
         <PieChart
           data={statistics.digitalInterest}
-          title="Digital Interests"
+          title="Minat Digital Pelanggan"
         />
       </div>
 
