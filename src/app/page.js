@@ -20,7 +20,7 @@ export default function Home() {
   if (!statistics) return <div>Loading...</div>;
 
   return (
-    <div className="min-h-screen p-8">
+    <div className="min-h-screen p-8 bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Chart Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
         <PieChart 
@@ -38,9 +38,12 @@ export default function Home() {
       </div>
 
       {/* Table Section */}
-      <div className="bg-white rounded-lg shadow-md">
-        <h2 className="text-xl font-bold p-6 border-b">Customer Data</h2>
-        <DataTable />
+      <div className="bg-white/20 backdrop-blur-md rounded-lg shadow-lg border border-white/30 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
+        <h2 className="text-xl font-bold p-6 border-b border-white/30 relative z-10">Customer Data</h2>
+        <div className="relative z-10">
+          <DataTable />
+        </div>
       </div>
     </div>
   );

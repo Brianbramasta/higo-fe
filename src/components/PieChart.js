@@ -77,8 +77,9 @@ export default function PieChart({ data, title }) {
   };
 
   return (
-    <div className="w-full p-4 bg-white rounded-lg shadow-md">
-      <div className="h-[300px]">
+    <div className="w-full p-4 bg-white/20 backdrop-blur-md rounded-lg shadow-lg border border-white/30 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
+      <div className="h-[300px] relative z-10">
         <Pie data={chartData} options={options} />
       </div>
     </div>

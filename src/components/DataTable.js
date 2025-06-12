@@ -22,8 +22,22 @@ export default function DataTable() {
     const fetchData = async () => {
       setIsLoading(true);
       try {
+        const params = new URLSearchParams({
+          page: page.toString(),
+          limit: limit.toString(),
+        });
+
+        if (searchQuery) {
+          params.append('search', searchQuery);
+        }
+
+        if (sorting.length > 0) {
+          params.append('sortBy', sorting[0].id);
+          params.append('sortOrder', sorting[0].desc ? 'desc' : 'asc');
+        }
+
         const response = await fetch(
-          `https://higo-api.vercel.app/api/customers?page=${page}&limit=${limit}`
+          `https://higo-api.vercel.app/api/customers?${params.toString()}`
         );
         const json = await response.json();
         setData(json.customers);
@@ -34,11 +48,23 @@ export default function DataTable() {
       setIsLoading(false);
     };
     fetchData();
-  }, [page, limit]);
+  }, [page, limit, searchQuery, sorting]);
 
   // Definisi kolom tabel
   const columnHelper = createColumnHelper();
   const columns = [
+    columnHelper.accessor('Number', {
+      header: 'No.',
+    }),
+    columnHelper.accessor('Name of Location', {
+      header: 'Lokasi',
+    }),
+    columnHelper.accessor('Date', {
+      header: 'Tanggal',
+    }),
+    columnHelper.accessor('Login Hour', {
+      header: 'Jam Login',
+    }),
     columnHelper.accessor('Name', {
       header: 'Nama',
       sortingFn: 'alphanumeric'
@@ -60,6 +86,9 @@ export default function DataTable() {
     }),
     columnHelper.accessor('Digital Interest', {
       header: 'Interest',
+    }),
+    columnHelper.accessor('Location Type', {
+      header: 'Tipe Lokasi',
     }),
   ];
 
@@ -110,8 +139,8 @@ export default function DataTable() {
       {isLoading ? (
         <div className="text-center py-4">Loading...</div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
+        <div className="overflow-x-auto max-w-full">
+          <table className="min-w-full table-fixed divide-y divide-gray-200">
             <thead className="bg-gray-50">
               {table.getHeaderGroups().map(headerGroup => (
                 <tr key={headerGroup.id}>
@@ -119,7 +148,8 @@ export default function DataTable() {
                     <th
                       key={header.id}
                       onClick={header.column.getToggleSortingHandler()}
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer whitespace-nowrap"
+                      style={{ minWidth: '150px' }}
                     >
                       <div className="flex items-center gap-2">
                         {flexRender(header.column.columnDef.header, header.getContext())}
