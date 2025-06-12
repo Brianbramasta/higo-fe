@@ -8,7 +8,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
-export default function DataTable() {
+export default function DataTable({ columns }) {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -50,47 +50,14 @@ export default function DataTable() {
     fetchData();
   }, [page, limit, searchQuery, sorting]);
 
-  // Definisi kolom tabel
+  // Remove the columns definition here since it's now passed as props
   const columnHelper = createColumnHelper();
-  const columns = [
-    columnHelper.accessor('Number', {
-      header: 'No.',
-    }),
-    columnHelper.accessor('Name of Location', {
-      header: 'Lokasi',
-    }),
-    columnHelper.accessor('Date', {
-      header: 'Tanggal',
-    }),
-    columnHelper.accessor('Login Hour', {
-      header: 'Jam Login',
-    }),
-    columnHelper.accessor('Name', {
-      header: 'Nama',
-      sortingFn: 'alphanumeric'
-    }),
-    columnHelper.accessor('Age', {
-      header: 'Tahun Lahir',
-    }),
-    columnHelper.accessor('gender', {
-      header: 'Gender',
-    }),
-    columnHelper.accessor('Email', {
-      header: 'Email',
-    }),
-    columnHelper.accessor('No Telp', {
-      header: 'Telepon',
-    }),
-    columnHelper.accessor('Brand Device', {
-      header: 'Device',
-    }),
-    columnHelper.accessor('Digital Interest', {
-      header: 'Interest',
-    }),
-    columnHelper.accessor('Location Type', {
-      header: 'Tipe Lokasi',
-    }),
-  ];
+  const tableColumns = columns.map(col => 
+    columnHelper.accessor(col.accessorKey, {
+      header: col.header,
+      sortingFn: col.sortingFn
+    })
+  );
 
   // Filter function for search
   const filteredData = data.filter(row => 
@@ -99,10 +66,10 @@ export default function DataTable() {
     )
   );
 
-  // Inisialisasi tabel
+  // Update table initialization
   const table = useReactTable({
     data: filteredData,
-    columns,
+    columns: tableColumns,
     state: { sorting },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),

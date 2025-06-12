@@ -7,6 +7,22 @@ import DataTable from '@/components/DataTable';
 export default function Home() {
   const [statistics, setStatistics] = useState(null);
 
+  // Define columns configuration
+  const columns = [
+    { accessorKey: 'Number', header: 'No.' },
+    { accessorKey: 'Name of Location', header: 'Lokasi' },
+    { accessorKey: 'Date', header: 'Tanggal' },
+    { accessorKey: 'Login Hour', header: 'Jam Login' },
+    { accessorKey: 'Name', header: 'Nama', sortingFn: 'alphanumeric' },
+    { accessorKey: 'Age', header: 'Tahun Lahir' },
+    { accessorKey: 'gender', header: 'Gender' },
+    { accessorKey: 'Email', header: 'Email' },
+    { accessorKey: 'No Telp', header: 'Telepon' },
+    { accessorKey: 'Brand Device', header: 'Device' },
+    { accessorKey: 'Digital Interest', header: 'Interest' },
+    { accessorKey: 'Location Type', header: 'Tipe Lokasi' },
+  ];
+
   // Mengambil data statistik
   useEffect(() => {
     const fetchStats = async () => {
@@ -42,7 +58,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none"></div>
         <h2 className="text-xl font-bold p-6 border-b border-white/30 relative z-10">Customer Data</h2>
         <div className="relative z-10">
-          <DataTable />
+          <DataTable columns={columns} />
         </div>
       </div>
     </div>
